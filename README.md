@@ -1,96 +1,119 @@
-# Purelane &mdash; Production Shopify Dawn 2.0 Theme
+# Purelane Shopify Theme (Dawn OS 2.0)
 
-> **Submission for Troopod AI Product Engineer Assignment**  
-> Taking the Purelane plant-based homecare prototype live on Shopify Dawn with 100% merchant editability, native Shopify 2.0 architecture, and 60fps performance.
+A Shopify Online Store 2.0 implementation of the Purelane homepage prototype, built as an extension on Shopify's Dawn theme framework.
 
----
+## Live Store & Access
 
-## 🔗 Live Store & Repository Details
-
-- **Storefront URL:** [https://purelane-dev-4enbpwjr.myshopify.com/](https://purelane-dev-4enbpwjr.myshopify.com/)
+- **Store URL:** https://purelane-dev-4enbpwjr.myshopify.com/
 - **Storefront Password:** `bohyub`
-- **Theme Base:** Official Shopify Dawn (Online Store 2.0 clean install)
-- **Repository:** [https://github.com/JAYASIMHAREDDYK/Troopod.git](https://github.com/JAYASIMHAREDDYK/Troopod.git)
-- **Branch:** `main`
+- **Base Theme:** Dawn 15.x (Online Store 2.0)
+- **Repository:** https://github.com/JAYASIMHAREDDYK/Troopod.git (`main` branch)
 
 ---
 
-## 🎯 Scope of Work
+## Technical Overview
 
-The assignment required transforming a single-file static design prototype (`purelane-homepage.html`) into production-grade, merchant-configurable Shopify Online Store 2.0 sections.
+The objective was converting a monolithic, single-file HTML prototype (`purelane-homepage.html`) into modular, merchant-configurable Shopify sections while keeping 1:1 visual parity with the design spec and ensuring production-level performance and accessibility.
 
-### Primary Sections Built:
-1. **Hero Section (`section.hero` / `sections/hero.liquid`)**:
-   - Merchant-editable headings, accent colors, and CTA buttons.
-   - Dynamic slide blocks for 1, 2, and 3-product stages with dynamic pricing, compare-at prices, and discount pills.
-   - Trust badge rail with custom icons (`Plant powered`, `Safe for kids & pets`, `Zero harsh chemicals`).
-   - Clean column separation preventing bottle overlap and maintaining vertical header clearance.
-2. **Shop / Product Grid (`#shop` / `sections/shop.liquid`)**:
-   - Collection-driven and block-driven fallback modes.
-   - Dynamic product cards with rating stars, review count, badge pills, pricing, and direct Ajax Add-to-Cart.
-   - Full edge-case handling: sold-out state, missing images, and long titles.
-3. **Best-Selling Combos (`#combos` / `sections/combos.liquid`)**:
-   - Horizontal swipeable combo rail with touch-scrolling.
-   - Product package components breakdown with `+` dividers.
-   - Discount tag badges and live price comparisons with one-click checkout integration.
-4. **Bundles (`#bundles` / `sections/bundles.liquid`)**:
-   - 3-tier bundle cards (Starter, Most Popular, Whole Home).
-   - Product bottle silhouettes, tier feature checkmarks, and savings indicators.
-5. **Reviews Rail (`#reviews` / `sections/reviews.liquid`)**:
-   - Continuous marquee ticker displaying 5-star customer reviews, verified buyer badges, and product references.
+### Architecture & Directory Layout
 
-### Bonus Sections & Infrastructure:
-- **Header & Mobile Drawer (`sections/header.liquid`)**: Floating glass pill navigation with search/account/cart counters and a smooth slide-out mobile navigation drawer.
-- **Ticker Bar (`sections/ticker.liquid`)**: Animated announcement strip across the top.
-- **Brand Pillars (`sections/pillars.liquid`)**: 3 core value proposition cards.
-- **Sourced from Nature (`sections/ingredients.liquid`)**: Botanical line-art ingredients grid.
-- **Proof & Stats (`sections/proof.liquid`)**: Customer proof statistics with circular visual rings.
-- **Footer (`sections/footer.liquid`)**: Newsletter capture, site navigation, and policy links.
-- **Multi-page & Cart Navigation**: Full routing between homepage sections, collections, product detail pages, and `/cart`.
+```text
+├── assets/
+│   ├── purelane.css         # Scoped styling, layout geometry, responsive breakpoints, glass tokens
+│   └── purelane.js          # Client-side interactions (carousels, Ajax cart additions, mobile drawer)
+├── config/
+│   └── settings_data.json   # Theme configuration and default preset settings
+├── layout/
+│   └── theme.liquid         # Global document shell, font preconnects, asset includes
+├── sections/
+│   ├── hero.liquid          # Hero section with 3-tier carousel stage & trust badge column
+│   ├── shop.liquid          # Product grid with rating, badge pills & direct Ajax add-to-cart
+│   ├── combos.liquid        # Horizontal swipeable combo rail with bundle components breakdown
+│   ├── bundles.liquid       # Tiered value bundles (Starter, Most Popular, Whole Home)
+│   ├── reviews.liquid       # Infinite marquee customer review rail
+│   ├── ingredients.liquid   # Botanical ingredients feature section
+│   ├── pillars.liquid       # Core value propositions
+│   ├── proof.liquid         # Quantitative social proof metrics
+│   ├── ticker.liquid        # Announcement marquee
+│   ├── header.liquid        # Fixed glass navbar with mobile drawer
+│   └── footer.liquid        # Footer columns, policies, newsletter signup
+└── templates/
+    └── index.json           # Section ordering and block schema configuration
+```
 
 ---
 
-## 🏷️ Metafield Definitions Created
+## Key Engineering Decisions
 
-To support rich ecommerce data natively in Shopify without hardcoding:
+### 1. Liquid Schemas & Merchant Editability
+Instead of hardcoding product cards, prices, and copy in Liquid:
+- Every section exposes a Shopify schema with typed settings (`text`, `textarea`, `image_picker`, `collection`, `product`, `url`, `color`).
+- Complex components (`hero` slides, `combos`, `bundles`, `reviews`) use nested block structures (`blocks`). Merchants can add, delete, reorder, and modify cards directly in the Shopify Theme Editor without code changes.
 
-| Metafield Namespace & Key | Type | Description |
-| :--- | :--- | :--- |
-| `product.metafields.purelane.badge` | `Single line text` | Promotional badge (e.g., `"Best seller"`, `"Top rated"`, `"New"`) |
-| `product.metafields.purelane.rating` | `Decimal` | Numerical star rating (e.g., `4.8`) |
-| `product.metafields.purelane.review_count` | `Integer` | Total verified customer reviews count (e.g., `237`) |
-| `product.metafields.purelane.components` | `List of handles / references` | Sub-products included inside pre-built combos |
+### 2. Metafields Architecture
+To pull rich product attributes dynamically from Shopify rather than hardcoding promotional tags or reviews in template code, the following metafields are defined:
 
----
+| Key | Namespace | Type | Purpose |
+| :--- | :--- | :--- | :--- |
+| `badge` | `purelane` | `single_line_text_field` | Product pill badge ("Best seller", "Top rated", "New") |
+| `rating` | `purelane` | `number_decimal` | Star rating display (e.g. `4.8`) |
+| `review_count` | `purelane` | `number_integer` | Verified buyer review count (e.g. `237`) |
+| `components` | `purelane` | `list.product_reference` | Sub-products included in a bundle combo |
 
-## 🧪 Seeded Test Scenarios
+### 3. Performance & Core Web Vitals
+The raw prototype had significant frame rate bottlenecks due to CPU-heavy rendering loops. The following fixes were implemented:
+- **SVG Filter Removal on Mobile/Scroll:** The prototype used continuous CSS animations over SVG `<feTurbulence>` and `<feDisplacementMap>` nodes. This caused sustained 100% thread usage on mobile and laptop GPUs. Replaced with composited CSS gradients and hardware-accelerated transforms (`translate3d`).
+- **Backdrop Filter Throttling:** Stacked `backdrop-filter: blur(...)` calls across multiple nested elements were flattened. Glassmorphic backgrounds utilize optimized alpha fills with subtle border highlights to achieve identical aesthetics at 60fps.
+- **Layout Shift Prevention:** Explicit aspect ratios (`aspect-ratio: ...`) and sizing clamps on product images and the hero carousel stage prevent Cumulative Layout Shift (CLS) during image loads and variant toggles.
 
-The store is seeded with **21 products** specifically verifying critical ecommerce edge cases:
-- **Sold-out product:** *Copper, Bronze & Brass Cleaner* (`available: false`, inventory `0`) renders disabled Add to Cart state with "Sold Out" badge.
-- **Missing image product:** Gracefully falls back to stylized brand container without breaking card geometry.
-- **Long title product:** *Purelane Complete Home Deep-Cleaning Ritual Kit With Reusable Spray Bottles And Cotton Cloths* (93 chars) wraps cleanly with line-clamping and zero layout shift.
+### 4. Layout Geometry & Responsive Fixes
+- **Hero Badge/Bottle Collision:** In the original prototype, both the 3-badge glass pill and the product stage were absolute-positioned at `right: 18px` and `right: 2%`, causing the badge card to physically cover the right bottle. In `sections/hero.liquid` and `assets/purelane.css`, the layout was re-budgeted: `.badges` is pinned to `right: 0`, and `.hero-prod` is offset to `right: 132px` on desktop, guaranteeing clean breathing room across all slides.
+- **Dynamic Pricing Tag Docking:** The slide price pill (`.ptag`) was tightened against the product stage container to prevent awkward whitespace gaps on ultra-wide viewports.
+- **Header Clearance:** Re-calibrated `.hstage` from `74svh` down to `clamp(340px, 58svh, 500px)`, eliminating vertical overflow into the sticky navbar on laptop displays.
 
----
-
-## ⚡ Performance & Production Architecture
-
-1. **Eliminated CPU-Bound SVG Filters**: The prototype ran infinite animated SVG turbulence and displacement filters (`feTurbulence`, `feDisplacementMap`), causing high CPU utilization and frame drops. These were replaced with lightweight, GPU-composited CSS gradients and hardware-accelerated transitions.
-2. **Backdrop Filter Optimization**: Reduced excessive stacking of heavy `backdrop-filter: blur(24px)` to maintain a silky smooth 60fps scroll.
-3. **Layout Stability & CLS**: All product cards, slides, and images enforce explicit aspect ratios and composite isolation to prevent Cumulative Layout Shift (CLS).
-4. **Accessibility (a11y)**: Focus-visible rings, contrast-compliant typography, ARIA labels, semantic landmark elements (`<header>`, `<main>`, `<section>`, `<footer>`), and screen-reader accessible SVGs.
-
----
-
-## 🛠️ Tech Stack
-
-- **Shopify Dawn Theme Engine** (Liquid, JSON templates, Section Schemas)
-- **Vanilla CSS3** (Custom Properties, Flexbox, CSS Grid, Glassmorphism)
-- **Vanilla JavaScript** (Shopify Ajax API, Touch Gestures, Carousel Controllers)
-- **Shopify CLI 3.x** (Theme Deployment & Validation)
+### 5. Multi-Page Routing & Fallbacks
+- Added routing logic to `sections/header.liquid` and `layout/theme.liquid`: anchor links (`#shop`, `#bundles`) automatically resolve to `/#shop` and `/#bundles` when the user navigates to `/cart`, product pages, or collection pages.
+- Mobile drawer implementation with keyboard accessibility (Escape to close, focus trapped when open, ARIA expanded state).
 
 ---
 
-## 👨‍💻 Author
+## Edge Case Handling
+
+The store contains 21 seeded products specifically validating edge cases:
+1. **Sold Out Product (`available: false`):** 
+   - *Copper, Bronze & Brass Cleaner* (inventory: 0).
+   - "Add to Cart" button automatically disables with distinct "Sold Out" styling; prevents accidental cart submissions.
+2. **Missing Image:**
+   - Products without media gracefully fallback to styled brand placeholder containers, preserving grid alignment without layout breakages.
+3. **Long Product Title:**
+   - *Purelane Complete Home Deep-Cleaning Ritual Kit With Reusable Spray Bottles And Cotton Cloths* (93 characters).
+   - Typography uses `-webkit-line-clamp` and flexible card flexboxes to ensure uniform card heights across the grid.
+
+---
+
+## Local Development & Deployment
+
+Prerequisites:
+- [Shopify CLI 3.x](https://shopify.dev/docs/themes/tools/cli)
+- Partner account or dev store collaborator access
+
+### Commands
+
+```bash
+# Authenticate to the dev store
+shopify theme dev --store purelane-dev-4enbpwjr.myshopify.com
+
+# Check for Liquid syntax or schema issues
+shopify theme check
+
+# Deploy directly to the live Dawn theme
+shopify theme push --theme 160909131861 --allow-live
+```
+
+---
+
+## Author
 
 **Jayasimha Reddy K**  
-AI Product Engineer Submission &bull; [GitHub Profile](https://github.com/JAYASIMHAREDDYK)
+Submission for Troopod AI Product Engineer Role  
+Repository: [github.com/JAYASIMHAREDDYK/Troopod](https://github.com/JAYASIMHAREDDYK/Troopod)
