@@ -3,356 +3,14 @@
   assign slide_blocks = section.blocks | where: 'type', 'slide'
 -%}
 
-{%- style -%}
-  .hero-{{ section.id }} {
-    position: relative;
-    z-index: 2;
-    min-height: 100svh;
-    display: flex;
-    align-items: flex-end;
-    padding: 150px 0 var(--sec-y, 34px);
-    {%- if section.settings.image != blank -%}
-      background-image: url('{{ section.settings.image | image_url: width: 2000 }}');
-      background-size: cover;
-      background-position: center;
-    {%- endif -%}
-  }
-  .hero-{{ section.id }}::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background: linear-gradient(102deg, rgba(1,45,42,.68) 0%, rgba(1,45,42,.40) 30%, rgba(1,45,42,.10) 52%, transparent 66%);
-  }
-  @media (max-width: 900px) {
-    .hero-{{ section.id }} {
-      padding-top: 132px;
-    }
-    .hero-{{ section.id }}::before {
-      background: linear-gradient(180deg, rgba(1,45,42,.44) 0%, rgba(1,45,42,.22) 34%, rgba(1,40,38,.60) 100%);
-    }
-  }
-  .hero-grid {
-    max-width: var(--maxw, 1180px);
-    margin: 0 auto;
-    padding: 0 18px;
-    width: 100%;
-    position: relative;
-    z-index: 2;
-  }
-  .hero-copy {
-    max-width: 600px;
-    position: relative;
-    z-index: 3;
-  }
-  .hero-copy h1 {
-    font-family: 'Outfit', system-ui, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: -.018em;
-    font-weight: 800;
-    line-height: .87;
-    font-size: clamp(48px, 8.6vw, 112px);
-    color: rgb(var(--pl-surface, 250, 247, 253));
-    margin-bottom: 20px;
-    text-shadow: 0 6px 40px rgba(2,20,19,.55);
-  }
-  .hero-copy h1 .accent-word {
-    color: rgb(var(--pl-accent, 240, 160, 60));
-  }
-  .hero-rule {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    margin: 0 0 20px;
-    max-width: 270px;
-  }
-  .hero-rule i {
-    height: 1px;
-    flex: 1;
-    background: linear-gradient(90deg, rgba(236,230,247,.44), transparent);
-  }
-  .hero-rule svg {
-    width: 16px;
-    height: 16px;
-    color: rgb(var(--pl-accent, 240, 160, 60));
-    flex: 0 0 auto;
-  }
-  .hero-lede {
-    font-size: clamp(15px, 1.35vw, 17.5px);
-    color: rgba(var(--pl-paper, 236, 230, 247), .74);
-    max-width: 44ch;
-    line-height: 1.62;
-  }
-  .hero-cta {
-    display: flex;
-    gap: 11px;
-    flex-wrap: wrap;
-    margin-top: 26px;
-  }
-  .hero-badges-desktop {
-    position: absolute;
-    right: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 96px;
-    z-index: 4;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 12px 8px;
-    border-radius: 20px;
-  }
-  @media (max-width: 900px) {
-    .hero-badges-desktop {
-      display: none;
-    }
-  }
-  .hero-badge {
-    text-align: center;
-    padding: 11px 4px;
-  }
-  .hero-badge + .hero-badge {
-    border-top: 1px solid rgba(236,230,247,.14);
-  }
-  .hero-badge__icon {
-    width: 38px;
-    height: 38px;
-    margin: 0 auto 8px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: rgba(236,230,247,.10);
-    border: 1px solid rgba(236,230,247,.22);
-    color: rgb(var(--pl-accent, 240, 160, 60));
-  }
-  .hero-badge__icon svg {
-    width: 19px;
-    height: 19px;
-  }
-  .hero-badge span {
-    display: block;
-    font-size: 8.5px;
-    font-weight: 700;
-    letter-spacing: .11em;
-    text-transform: uppercase;
-    color: rgba(var(--pl-paper, 236, 230, 247), .74);
-    line-height: 1.34;
-  }
-  .hero-badgestrip-mobile {
-    display: flex;
-    gap: 8px;
-    margin-top: 24px;
-  }
-  @media (min-width: 901px) {
-    .hero-badgestrip-mobile {
-      display: none;
-    }
-  }
-  .hero-badgestrip-mobile div {
-    flex: 1;
-    text-align: center;
-    padding: 11px 6px;
-    border-radius: 14px;
-    font-size: 8.5px;
-    font-weight: 700;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: rgba(var(--pl-paper, 236, 230, 247), .74);
-    line-height: 1.3;
-  }
-  .hero-badgestrip-mobile svg {
-    width: 18px;
-    height: 18px;
-    margin: 0 auto 6px;
-    color: rgb(var(--pl-accent, 240, 160, 60));
-  }
-  .hero-prod {
-    position: absolute;
-    right: 2%;
-    bottom: 28px;
-    width: min(50vw, 560px);
-    z-index: 2;
-    filter: drop-shadow(0 34px 54px rgba(2,20,19,.6));
-  }
-  @media (max-width: 1200px) {
-    .hero-copy {
-      max-width: 470px;
-    }
-    .hero-prod {
-      width: min(44vw, 440px);
-      right: 3%;
-    }
-  }
-  @media (max-width: 900px) {
-    .hero-copy {
-      max-width: none;
-    }
-    .hero-prod {
-      position: relative;
-      right: auto;
-      bottom: auto;
-      width: min(88vw, 420px);
-      margin: 20px auto 0;
-    }
-  }
-  .hstage {
-    position: relative;
-    width: 100%;
-    height: clamp(380px, 74svh, 680px);
-  }
-  @media (max-width: 900px) {
-    .hstage {
-      height: clamp(300px, 44svh, 430px);
-    }
-  }
-  .hslide {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    padding-right: 2%;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .85s var(--ease, cubic-bezier(.2,.7,.2,1));
-  }
-  .hslide.is-active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .hp-wrap {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    height: 100%;
-    width: 100%;
-  }
-  .hp-img {
-    position: relative;
-    width: auto;
-    flex: 0 0 auto;
-    object-fit: contain;
-    opacity: 0;
-    transform: translateY(28px) scale(.94);
-    transition: opacity .8s var(--ease, cubic-bezier(.2,.7,.2,1)), transform .8s var(--ease, cubic-bezier(.2,.7,.2,1));
-    filter: drop-shadow(0 26px 40px rgba(1,22,20,.66));
-  }
-  .hslide.is-active .hp-img {
-    opacity: 1;
-    transform: none;
-  }
-  .hp-img:nth-child(1) { transition-delay: .06s; }
-  .hp-img:nth-child(2) { transition-delay: .30s; }
-  .hp-img:nth-child(3) { transition-delay: .54s; }
-  .hslide--1 .hp-img { height: 100%; z-index: 3; }
-  .hslide--2 .hp-img:nth-child(1) { height: 80%; margin-right: -8%; z-index: 1; }
-  .hslide--2 .hp-img:nth-child(2) { height: 97%; z-index: 3; }
-  .hslide--3 .hp-img:nth-child(1) { height: 75%; margin-right: -8%; z-index: 1; order: 1; }
-  .hslide--3 .hp-img:nth-child(2) { height: 97%; z-index: 3; order: 2; }
-  .hslide--3 .hp-img:nth-child(3) { height: 79%; margin-left: -8%; z-index: 2; order: 3; }
-  .ptag {
-    position: absolute;
-    left: 0;
-    bottom: 2%;
-    z-index: 6;
-    padding: 11px 14px 12px;
-    border-radius: 16px;
-    max-width: 52%;
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity .8s var(--ease, cubic-bezier(.2,.7,.2,1)) .62s, transform .8s var(--ease, cubic-bezier(.2,.7,.2,1)) .62s;
-  }
-  @media (max-width: 900px) {
-    .ptag {
-      padding: 9px 12px 10px;
-      border-radius: 14px;
-      max-width: 58%;
-    }
-  }
-  .hslide.is-active .ptag {
-    opacity: 1;
-    transform: none;
-  }
-  .ptag__label {
-    display: block;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: .17em;
-    text-transform: uppercase;
-    color: rgb(var(--pl-accent, 240, 160, 60));
-  }
-  .ptag__values {
-    display: flex;
-    align-items: baseline;
-    gap: 7px;
-    margin-top: 5px;
-  }
-  .ptag__values strong {
-    font-family: 'Outfit', sans-serif;
-    font-size: 23px;
-    font-weight: 800;
-    letter-spacing: -.02em;
-    color: rgb(var(--pl-surface, 250, 247, 253));
-    line-height: 1;
-  }
-  @media (max-width: 900px) {
-    .ptag__values strong {
-      font-size: 20px;
-    }
-  }
-  .ptag__values s {
-    font-size: 12px;
-    color: rgba(var(--pl-paper, 236, 230, 247), .52);
-  }
-  .ptag__discount {
-    display: inline-block;
-    margin-top: 7px;
-    font-size: 8.4px;
-    font-weight: 800;
-    letter-spacing: .11em;
-    text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 999px;
-    background: rgba(var(--pl-accent, 240, 160, 60), .20);
-    border: 1px solid rgba(var(--pl-accent, 240, 160, 60), .38);
-    color: rgb(var(--pl-accent, 240, 160, 60));
-  }
-  .hdots {
-    display: flex;
-    gap: 7px;
-    justify-content: center;
-    align-items: center;
-    margin-top: 8px;
-  }
-  .hdots button {
-    width: 6px;
-    height: 6px;
-    padding: 0;
-    border-radius: 50%;
-    background: rgba(236, 230, 247, .28);
-    transition: width .4s var(--ease, cubic-bezier(.2,.7,.2,1)), background .4s var(--ease, cubic-bezier(.2,.7,.2,1));
-  }
-  .hdots button[aria-selected="true"] {
-    background: rgb(var(--pl-accent, 240, 160, 60));
-    width: 20px;
-    border-radius: 999px;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hslide, .hp-img, .ptag, .hdots button {
-      transition: none !important;
-      animation: none !important;
-    }
-  }
-{%- endstyle -%}
-
-<section class="hero hero-{{ section.id }} color-{{ section.settings.color_scheme }} gradient" data-section-id="{{ section.id }}">
+<section class="hero" id="top" data-scene="1">
   <div class="hero-grid">
-    {%- if badge_blocks.size > 0 -%}
-      <div class="hero-badges-desktop glass-2" aria-label="{{ 'accessibility.promises' | default: 'Product promises' }}">
+
+    <div class="badges glass-2" aria-label="Product promises">
+      {%- if badge_blocks.size > 0 -%}
         {%- for block in badge_blocks -%}
-          <div class="hero-badge" {{ block.shopify_attributes }}>
-            <span class="hero-badge__icon">
+          <div class="badge" {{ block.shopify_attributes }}>
+            <span class="bi">
               {%- case block.settings.icon -%}
                 {%- when 'shield' -%}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg>
@@ -362,48 +20,51 @@
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
               {%- endcase -%}
             </span>
-            <span>{{ block.settings.text }}</span>
+            {{ block.settings.text }}
           </div>
         {%- endfor -%}
-      </div>
-    {%- endif -%}
+      {%- else -%}
+        <div class="badge">
+          <span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg></span>
+          Plant powered
+        </div>
+        <div class="badge">
+          <span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg></span>
+          Kids &amp; pets
+        </div>
+        <div class="badge">
+          <span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.4 17.6 17.6 6.4"/></svg></span>
+          Zero harsh chem
+        </div>
+      {%- endif -%}
+    </div>
 
     <div class="hero-copy">
-      <h1>
-        {{ section.settings.heading }}
-        {%- if section.settings.accent_heading != blank -%}
-          <br><span class="accent-word">{{ section.settings.accent_heading }}</span>
-        {%- endif -%}
+      <h1 class="d1 rv in">
+        {{ section.settings.heading | default: 'Clean' }}<br>
+        <span class="lime">{{ section.settings.accent_heading | default: 'That Lasts' }}</span>
       </h1>
-
-      <div class="hero-rule" aria-hidden="true">
+      <div class="rule rv rv-d1">
         <i></i>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
         <i></i>
       </div>
-
-      {%- if section.settings.lede != blank -%}
-        <p class="hero-lede">{{ section.settings.lede }}</p>
-      {%- endif -%}
-
-      <div class="hero-cta">
-        {%- if section.settings.button_1_label != blank -%}
-          <a class="btn btn-primary" href="{{ section.settings.button_1_link }}" aria-label="{{ section.settings.button_1_label }}">
-            {{ section.settings.button_1_label }}
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
-          </a>
-        {%- endif -%}
-        {%- if section.settings.button_2_label != blank -%}
-          <a class="btn btn-ghost" href="{{ section.settings.button_2_link }}" aria-label="{{ section.settings.button_2_label }}">
-            {{ section.settings.button_2_label }}
-          </a>
-        {%- endif -%}
+      <p class="lede rv rv-d2">{{ section.settings.lede | default: 'Homecare that works on the toughest grime, made from plants. Kind to your home, your family and the world outside it.' }}</p>
+      
+      <div class="hero-cta rv rv-d3">
+        <a class="btn btn-primary" href="{{ section.settings.button_1_link | default: '#shop' }}">
+          {{ section.settings.button_1_label | default: 'Shop now' }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="{{ section.settings.button_2_link | default: '#how' }}">
+          {{ section.settings.button_2_label | default: 'How it works' }}
+        </a>
       </div>
 
-      {%- if badge_blocks.size > 0 -%}
-        <div class="hero-badgestrip-mobile">
+      <div class="badgestrip rv rv-d4">
+        {%- if badge_blocks.size > 0 -%}
           {%- for block in badge_blocks -%}
-            <div class="glass-2" {{ block.shopify_attributes }}>
+            <div class="glass-2">
               {%- case block.settings.icon -%}
                 {%- when 'shield' -%}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg>
@@ -415,179 +76,83 @@
               {{ block.settings.text | replace: '<br>', ' ' }}
             </div>
           {%- endfor -%}
-        </div>
-      {%- endif -%}
+        {%- else -%}
+          <div class="glass-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+            Plant powered
+          </div>
+          <div class="glass-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg>
+            Kids &amp; pet safe
+          </div>
+          <div class="glass-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.4 17.6 17.6 6.4"/></svg>
+            Zero harsh chem
+          </div>
+        {%- endif -%}
+      </div>
     </div>
 
-    {%- if slide_blocks.size > 0 -%}
-      <div class="hero-prod">
-        <hero-stage class="hero-stage-component">
-          <div class="hstage">
-            {%- for block in slide_blocks -%}
-              {%- liquid
-                assign prod_count = 1
-                if block.settings.image_3 != blank or block.settings.product_3 != blank
-                  assign prod_count = 3
-                elsif block.settings.image_2 != blank or block.settings.product_2 != blank
-                  assign prod_count = 2
-                endif
-              -%}
-              <div
-                class="hslide hslide--{{ prod_count }}{% if forloop.first %} is-active{% endif %}"
-                id="hero-slide-{{ section.id }}-{{ forloop.index }}"
-                role="tabpanel"
-                aria-labelledby="hero-tab-{{ section.id }}-{{ forloop.index }}"
-                aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
-                {{ block.shopify_attributes }}
-              >
-                <div class="hp-wrap">
-                  {%- if block.settings.image_1 != blank -%}
-                    {{ block.settings.image_1 | image_url: width: 600 | image_tag: loading: 'eager', class: 'hp-img', alt: block.settings.image_1.alt | default: 'Purelane cleaner' | escape }}
-                  {%- elsif block.settings.product_1.featured_media -%}
-                    {{ block.settings.product_1.featured_media | image_url: width: 600 | image_tag: loading: 'eager', class: 'hp-img', alt: block.settings.product_1.title | escape }}
-                  {%- else -%}
-                    {{ 'product-1' | placeholder_svg_tag: 'hp-img' }}
-                  {%- endif -%}
-
-                  {%- if prod_count >= 2 -%}
-                    {%- if block.settings.image_2 != blank -%}
-                      {{ block.settings.image_2 | image_url: width: 600 | image_tag: loading: 'lazy', class: 'hp-img', alt: block.settings.image_2.alt | default: 'Purelane cleaner' | escape }}
-                    {%- elsif block.settings.product_2.featured_media -%}
-                      {{ block.settings.product_2.featured_media | image_url: width: 600 | image_tag: loading: 'lazy', class: 'hp-img', alt: block.settings.product_2.title | escape }}
-                    {%- endif -%}
-                  {%- endif -%}
-
-                  {%- if prod_count >= 3 -%}
-                    {%- if block.settings.image_3 != blank -%}
-                      {{ block.settings.image_3 | image_url: width: 600 | image_tag: loading: 'lazy', class: 'hp-img', alt: block.settings.image_3.alt | default: 'Purelane cleaner' | escape }}
-                    {%- elsif block.settings.product_3.featured_media -%}
-                      {{ block.settings.product_3.featured_media | image_url: width: 600 | image_tag: loading: 'lazy', class: 'hp-img', alt: block.settings.product_3.title | escape }}
-                    {%- endif -%}
-                  {%- endif -%}
-                </div>
-
-                <div class="glass-2 ptag">
-                  {%- if block.settings.price_label != blank -%}
-                    <span class="ptag__label">{{ block.settings.price_label }}</span>
-                  {%- endif -%}
-                  <div class="ptag__values">
-                    <strong>{{ block.settings.price }}</strong>
-                    {%- if block.settings.compare_at_price != blank -%}
-                      <s>{{ block.settings.compare_at_price }}</s>
-                    {%- endif -%}
-                  </div>
-                  {%- if block.settings.discount_text != blank -%}
-                    <span class="ptag__discount">{{ block.settings.discount_text }}</span>
-                  {%- endif -%}
-                </div>
+    <div class="hero-prod" id="heroProd">
+      <div class="hstage" id="hstage">
+        {%- if slide_blocks.size > 0 -%}
+          {%- for block in slide_blocks -%}
+            {%- assign slide_idx = forloop.index -%}
+            <div class="hslide hs{{ slide_idx }}{% if forloop.first %} on{% endif %}" data-n="{{ slide_idx }}" {{ block.shopify_attributes }}>
+              {%- case slide_idx -%}
+                {%- when 1 -%}
+                  <span class="hp p-kbtl a d1" role="img" aria-label="Purelane foaming kitchen cleaner spray bottle"></span>
+                {%- when 2 -%}
+                  <span class="hp p-tbtl a d1" role="img" aria-label="Purelane tap cleaner and limescale remover spray bottle"></span>
+                  <span class="hp p-kbtl b d2" role="img" aria-label="Purelane foaming kitchen cleaner spray bottle"></span>
+                {%- else -%}
+                  <span class="hp p-tbtl a d1" role="img" aria-label="Purelane tap cleaner and limescale remover spray bottle"></span>
+                  <span class="hp p-mbtl b d2" role="img" aria-label="Purelane copper, bronze and brass cleaner pump bottle"></span>
+                  <span class="hp p-kbtl c d3" role="img" aria-label="Purelane foaming kitchen cleaner spray bottle"></span>
+              {%- endcase -%}
+              <div class="glass-2 ptag">
+                <span class="lbl">{{ block.settings.price_label }}</span>
+                <span class="val">
+                  <strong>{{ block.settings.price }}</strong>
+                  {%- if block.settings.compare_at_price != blank -%}<s>{{ block.settings.compare_at_price }}</s>{%- endif -%}
+                </span>
+                {%- if block.settings.discount_text != blank -%}<span class="cut">{{ block.settings.discount_text }}</span>{%- endif -%}
               </div>
-            {%- endfor -%}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          <div class="hslide hs1 on" data-n="1">
+            <span class="hp p-kbtl a d1" role="img" aria-label="Purelane foaming kitchen cleaner spray bottle"></span>
+            <div class="glass-2 ptag"><span class="lbl">Single bottle</span><span class="val"><strong>₹200</strong><s>₹299</s></span><span class="cut">33% off</span></div>
           </div>
-
-          <div class="hdots" role="tablist" aria-label="{{ 'accessibility.rotator_controls' | default: 'Product showcase controls' }}">
-            {%- for block in slide_blocks -%}
-              <button
-                type="button"
-                role="tab"
-                id="hero-tab-{{ section.id }}-{{ forloop.index }}"
-                aria-controls="hero-slide-{{ section.id }}-{{ forloop.index }}"
-                aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-                tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
-                aria-label="{{ block.settings.price_label | default: 'Slide' | append: ' ' | append: forloop.index }}"
-              ></button>
-            {%- endfor -%}
+          <div class="hslide hs2" data-n="2">
+            <span class="hp p-tbtl a d1" role="img" aria-label="Purelane tap cleaner and limescale remover spray bottle"></span>
+            <span class="hp p-kbtl b d2" role="img" aria-label="Purelane foaming kitchen cleaner spray bottle"></span>
+            <div class="glass-2 ptag"><span class="lbl">Any 2 products</span><span class="val"><strong>₹349</strong><s>₹598</s></span><span class="cut">Save ₹249</span></div>
           </div>
-        </hero-stage>
+          <div class="hslide hs3" data-n="3">
+            <span class="hp p-tbtl a d1" role="img" aria-label="Purelane tap cleaner and limescale remover spray bottle"></span>
+            <span class="hp p-mbtl b d2" role="img" aria-label="Purelane copper, bronze and brass cleaner pump bottle"></span>
+            <span class="hp p-kbtl c d3" role="img" aria-label="Purelane foaming kitchen cleaner spray bottle"></span>
+            <div class="glass-2 ptag"><span class="lbl">Any 3 products</span><span class="val"><strong>₹499</strong><s>₹897</s></span><span class="cut">Save ₹398</span></div>
+          </div>
+        {%- endif -%}
       </div>
-    {%- endif -%}
+      <div class="hdots" id="hdots">
+        {%- if slide_blocks.size > 0 -%}
+          {%- for block in slide_blocks -%}
+            <button type="button" class="{% if forloop.first %}on{% endif %}" aria-label="Show product group {{ forloop.index }}"></button>
+          {%- endfor -%}
+        {%- else -%}
+          <button type="button" class="on" aria-label="Show 1 product"></button>
+          <button type="button" class="" aria-label="Show 2 products"></button>
+          <button type="button" class="" aria-label="Show 3 products"></button>
+        {%- endif -%}
+      </div>
+    </div>
+
   </div>
 </section>
-
-<script>
-  if (!customElements.get('hero-stage')) {
-    customElements.define('hero-stage', class HeroStage extends HTMLElement {
-      connectedCallback() {
-        this.slides = Array.from(this.querySelectorAll('.hslide'));
-        this.tabs = Array.from(this.querySelectorAll('.hdots button'));
-        if (this.slides.length <= 1) return;
-
-        this.currentIndex = 0;
-        this.interval = null;
-        this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        this.tabs.forEach((tab, index) => {
-          tab.addEventListener('click', () => this.goTo(index));
-          tab.addEventListener('keydown', (e) => this.handleKeyDown(e, index));
-        });
-
-        this.addEventListener('mouseenter', () => this.pause());
-        this.addEventListener('mouseleave', () => this.play());
-        this.addEventListener('focusin', () => this.pause());
-        this.addEventListener('focusout', () => this.play());
-
-        this.observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              this.play();
-            } else {
-              this.pause();
-            }
-          });
-        }, { threshold: 0.2 });
-
-        this.observer.observe(this);
-        this.play();
-      }
-
-      disconnectedCallback() {
-        this.pause();
-        if (this.observer) this.observer.disconnect();
-      }
-
-      goTo(index) {
-        this.slides[this.currentIndex].classList.remove('is-active');
-        this.slides[this.currentIndex].setAttribute('aria-hidden', 'true');
-        this.tabs[this.currentIndex].setAttribute('aria-selected', 'false');
-        this.tabs[this.currentIndex].setAttribute('tabindex', '-1');
-
-        this.currentIndex = (index + this.slides.length) % this.slides.length;
-
-        this.slides[this.currentIndex].classList.add('is-active');
-        this.slides[this.currentIndex].setAttribute('aria-hidden', 'false');
-        this.tabs[this.currentIndex].setAttribute('aria-selected', 'true');
-        this.tabs[this.currentIndex].setAttribute('tabindex', '0');
-      }
-
-      handleKeyDown(event, index) {
-        let targetIndex = null;
-        if (event.key === 'ArrowRight') targetIndex = (index + 1) % this.tabs.length;
-        if (event.key === 'ArrowLeft') targetIndex = (index - 1 + this.tabs.length) % this.tabs.length;
-        if (event.key === 'Home') targetIndex = 0;
-        if (event.key === 'End') targetIndex = this.tabs.length - 1;
-
-        if (targetIndex !== null) {
-          event.preventDefault();
-          this.goTo(targetIndex);
-          this.tabs[targetIndex].focus();
-        }
-      }
-
-      play() {
-        if (this.reducedMotion || this.interval) return;
-        this.interval = setInterval(() => {
-          this.goTo(this.currentIndex + 1);
-        }, 5000);
-      }
-
-      pause() {
-        if (this.interval) {
-          clearInterval(this.interval);
-          this.interval = null;
-        }
-      }
-    });
-  }
-</script>
 
 {% schema %}
 {
@@ -596,27 +161,16 @@
   "class": "section-hero",
   "settings": [
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Background image"
-    },
-    {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Clean That"
+      "default": "Clean"
     },
     {
       "type": "text",
       "id": "accent_heading",
-      "label": "Accent heading word",
-      "default": "Lasts"
+      "label": "Accent heading",
+      "default": "That Lasts"
     },
     {
       "type": "textarea",
@@ -627,33 +181,30 @@
     {
       "type": "text",
       "id": "button_1_label",
-      "label": "First button label",
+      "label": "Primary button label",
       "default": "Shop now"
     },
     {
       "type": "url",
       "id": "button_1_link",
-      "label": "First button link",
-      "default": "/collections/all"
+      "label": "Primary button link"
     },
     {
       "type": "text",
       "id": "button_2_label",
-      "label": "Second button label",
+      "label": "Secondary button label",
       "default": "How it works"
     },
     {
       "type": "url",
       "id": "button_2_link",
-      "label": "Second button link",
-      "default": "/#how"
+      "label": "Secondary button link"
     }
   ],
   "blocks": [
     {
       "type": "badge",
-      "name": "Promise badge",
-      "limit": 4,
+      "name": "Promise Badge",
       "settings": [
         {
           "type": "select",
@@ -669,45 +220,15 @@
         {
           "type": "text",
           "id": "text",
-          "label": "Badge text",
-          "default": "Plant<br>powered"
+          "label": "Text",
+          "default": "Plant powered"
         }
       ]
     },
     {
       "type": "slide",
-      "name": "Product slide",
+      "name": "Hero Slide",
       "settings": [
-        {
-          "type": "product",
-          "id": "product_1",
-          "label": "Primary product"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_1",
-          "label": "Primary custom image"
-        },
-        {
-          "type": "product",
-          "id": "product_2",
-          "label": "Secondary product"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_2",
-          "label": "Secondary custom image"
-        },
-        {
-          "type": "product",
-          "id": "product_3",
-          "label": "Tertiary product"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_3",
-          "label": "Tertiary custom image"
-        },
         {
           "type": "text",
           "id": "price_label",
@@ -729,7 +250,7 @@
         {
           "type": "text",
           "id": "discount_text",
-          "label": "Discount tag",
+          "label": "Discount text",
           "default": "33% off"
         }
       ]
@@ -739,9 +260,9 @@
     {
       "name": "Hero",
       "blocks": [
-        { "type": "badge", "settings": { "icon": "leaf", "text": "Plant<br>powered" } },
-        { "type": "badge", "settings": { "icon": "shield", "text": "Safe for<br>kids & pets" } },
-        { "type": "badge", "settings": { "icon": "ban", "text": "Zero harsh<br>chemicals" } },
+        { "type": "badge", "settings": { "icon": "leaf", "text": "Plant powered" } },
+        { "type": "badge", "settings": { "icon": "shield", "text": "Kids & pets" } },
+        { "type": "badge", "settings": { "icon": "ban", "text": "Zero harsh chem" } },
         { "type": "slide", "settings": { "price_label": "Single bottle", "price": "₹200", "compare_at_price": "₹299", "discount_text": "33% off" } },
         { "type": "slide", "settings": { "price_label": "Any 2 products", "price": "₹349", "compare_at_price": "₹598", "discount_text": "Save ₹249" } },
         { "type": "slide", "settings": { "price_label": "Any 3 products", "price": "₹499", "compare_at_price": "₹897", "discount_text": "Save ₹398" } }

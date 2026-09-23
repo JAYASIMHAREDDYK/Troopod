@@ -1,221 +1,82 @@
-{%- liquid
-  assign review_count = section.blocks.size
-  assign total_rating = 0
-  for block in section.blocks
-    assign total_rating = total_rating | plus: block.settings.rating
-  endfor
-  if review_count > 0
-    assign avg_whole = total_rating | divided_by: review_count
-    assign avg_rem = total_rating | modulo: review_count | times: 10 | divided_by: review_count
-    assign avg_display = avg_whole | append: '.' | append: avg_rem
-  else
-    assign avg_display = '4.8'
-  endif
--%}
-
-{%- style -%}
-  .reviews-section-{{ section.id }} {
-    padding: var(--sec-y, 34px) 0;
-  }
-  .reviews-section__wrap {
-    max-width: var(--maxw, 1180px);
-    margin: 0 auto;
-    padding: 0 18px;
-  }
-  .revhead {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px 18px;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
-  }
-  .revhead .kicker {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: rgba(var(--pl-paper, 236, 230, 247), .52);
-  }
-  .revhead .agg {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11.5px;
-    font-weight: 700;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: rgba(var(--pl-paper, 236, 230, 247), .74);
-  }
-  .revhead .agg b {
-    font-family: 'Outfit', sans-serif;
-    font-size: 16px;
-    color: rgb(var(--pl-accent, 240, 160, 60));
-    letter-spacing: 0;
-  }
-  .revhead .st {
-    color: rgb(var(--pl-accent, 240, 160, 60));
-    font-size: 12px;
-    letter-spacing: .16em;
-  }
-  .revrail {
-    overflow: hidden;
-    position: relative;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-  }
-  .revtrack {
-    display: flex;
-    gap: 12px;
-    width: max-content;
-    animation: revmarq 52s linear infinite;
-  }
-  .revrail:hover .revtrack,
-  .revrail:focus-within .revtrack {
-    animation-play-state: paused;
-  }
-  @keyframes revmarq {
-    from { transform: translate3d(0, 0, 0); }
-    to { transform: translate3d(-50%, 0, 0); }
-  }
-  .rcard {
-    flex: 0 0 auto;
-    width: 284px;
-    padding: 15px 17px;
-    border-radius: 18px;
-  }
-  .rcard .st {
-    color: rgb(var(--pl-accent, 240, 160, 60));
-    font-size: 10.5px;
-    letter-spacing: .2em;
-    margin-bottom: 9px;
-  }
-  .rcard h3, .rcard h5 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    color: rgb(var(--pl-surface, 250, 247, 253));
-    margin-bottom: 7px;
-    margin-top: 0;
-  }
-  .rcard p {
-    font-size: 12.6px;
-    color: rgba(var(--pl-paper, 236, 230, 247), .74);
-    line-height: 1.52;
-    margin-bottom: 11px;
-    margin-top: 0;
-  }
-  .rcard .who {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 9.5px;
-    font-weight: 700;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: rgba(var(--pl-paper, 236, 230, 247), .52);
-  }
-  .rcard .who b {
-    color: rgb(var(--pl-surface, 250, 247, 253));
-    font-weight: 700;
-  }
-  .rcard .who svg {
-    width: 12px;
-    height: 12px;
-    color: rgb(var(--pl-accent, 240, 160, 60));
-    flex: 0 0 auto;
-  }
-  @media (max-width: 760px) {
-    .rcard {
-      width: 250px;
-      padding: 13px 14px;
-    }
-    .revtrack {
-      animation-duration: 40s;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .revtrack {
-      animation: none !important;
-      transform: none !important;
-    }
-    .revrail {
-      overflow-x: auto;
-      scroll-behavior: auto !important;
-      -webkit-mask-image: none;
-      mask-image: none;
-    }
-  }
-{%- endstyle -%}
-
-<section class="sec revband reviews-section-{{ section.id }} color-{{ section.settings.color_scheme }} gradient" id="reviews" data-section-id="{{ section.id }}">
-  <div class="reviews-section__wrap">
-    <div class="revhead">
-      {%- if section.settings.kicker != blank -%}
-        <span class="kicker">{{ section.settings.kicker }}</span>
-      {%- endif -%}
-      <span class="agg">
-        <span class="st" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-        <b>{{ avg_display }}</b> {{ section.settings.rating_text | default: 'from 8,000+ reviews' }}
-      </span>
-      {%- if section.settings.secondary_stat != blank -%}
-        <span class="agg">{{ section.settings.secondary_stat }}</span>
-      {%- endif -%}
+<section class="sec revband" id="reviews" data-scene="1">
+  <div class="wrap">
+    <div class="revhead rv">
+      <span class="kicker">{{ section.settings.kicker | default: "That's what they said" }}</span>
+      <span class="agg"><span class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <b>4.8</b> {{ section.settings.rating_text | default: 'from 8,000+ reviews' }}</span>
+      <span class="agg">{{ section.settings.secondary_stat | default: 'Loved by <b>12 lakh+</b> homes' }}</span>
     </div>
   </div>
-
-  <review-rail class="revrail" role="region" aria-label="{{ 'accessibility.reviews' | default: 'Customer reviews' }}">
+  <div class="revrail rv" aria-label="Customer reviews">
     <div class="revtrack">
       {%- if section.blocks.size > 0 -%}
-        {%- for block in section.blocks -%}
-          <article class="glass-2 rcard" {{ block.shopify_attributes }}>
-            <div class="st" aria-label="{{ block.settings.rating }} out of 5 stars">
-              {%- for i in (1..block.settings.rating) -%}&#9733;{%- endfor -%}
-            </div>
-            <h5>{{ block.settings.heading }}</h5>
-            <p>{{ block.settings.text }}</p>
+        {%- for i in (1..2) -%}
+          {%- for block in section.blocks -%}
+            <article class="glass-2 rcard" {{ block.shopify_attributes }}>
+              <div class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              <h5>{{ block.settings.heading }}</h5>
+              <p>{{ block.settings.text }}</p>
+              <div class="who">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+                <b>{{ block.settings.author }}</b>
+                {%- if block.settings.product_label != blank -%}
+                  <span>&middot; {{ block.settings.product_label }}</span>
+                {%- endif -%}
+              </div>
+            </article>
+          {%- endfor -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..2) -%}
+          <article class="glass-2 rcard">
+            <div class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <h5>Works like a charm</h5>
+            <p>Finally an eco option that cleans as well as the chemical detergent I used for years, and it smells better.</p>
             <div class="who">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>
-              <b>{{ block.settings.author }}</b>
-              {%- if block.settings.product_label != blank -%}
-                <span>&middot; {{ block.settings.product_label }}</span>
-              {%- endif -%}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+              <b>Anita</b><span>&middot; Laundry detergent</span>
+            </div>
+          </article>
+          <article class="glass-2 rcard">
+            <div class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <h5>Best dishwash ever</h5>
+            <p>Our old dishwash left my help with dry, cracked skin. That stopped completely after we switched.</p>
+            <div class="who">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+              <b>Priya</b><span>&middot; Dishwash gel</span>
+            </div>
+          </article>
+          <article class="glass-2 rcard">
+            <div class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <h5>Great product, great packaging</h5>
+            <p>Very soft on hands with a lovely fragrance, and it feels good to be using far less plastic.</p>
+            <div class="who">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+              <b>Sunita</b><span>&middot; Liquid handwash</span>
+            </div>
+          </article>
+          <article class="glass-2 rcard">
+            <div class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <h5>Dog friendly</h5>
+            <p>We switched because chemical floor cleaners were setting off my dog's allergies. No reactions since.</p>
+            <div class="who">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+              <b>Rohit S.</b><span>&middot; Floor cleaner</span>
+            </div>
+          </article>
+          <article class="glass-2 rcard">
+            <div class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <h5>Sparkling taps again</h5>
+            <p>Hard water had ruined our bathroom fittings. Two sprays and the scale wipes straight off, no scrubbing.</p>
+            <div class="who">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+              <b>Verified buyer</b><span>&middot; Tap cleaner</span>
             </div>
           </article>
         {%- endfor -%}
       {%- endif -%}
     </div>
-  </review-rail>
+  </div>
 </section>
-
-<script>
-  if (!customElements.get('review-rail')) {
-    customElements.define('review-rail', class ReviewRail extends HTMLElement {
-      connectedCallback() {
-        this.track = this.querySelector('.revtrack');
-        if (!this.track) return;
-
-        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reducedMotion) return;
-
-        const originalCards = Array.from(this.track.children);
-        if (originalCards.length === 0) return;
-
-        originalCards.forEach(card => {
-          const clone = card.cloneNode(true);
-          clone.setAttribute('aria-hidden', 'true');
-          clone.setAttribute('tabindex', '-1');
-          clone.querySelectorAll('a, button, input, [tabindex]').forEach(el => {
-            el.setAttribute('tabindex', '-1');
-          });
-          this.track.appendChild(clone);
-        });
-      }
-    });
-  }
-</script>
 
 {% schema %}
 {
@@ -223,12 +84,6 @@
   "tag": "section",
   "class": "section-reviews",
   "settings": [
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
     {
       "type": "text",
       "id": "kicker",
@@ -238,7 +93,7 @@
     {
       "type": "text",
       "id": "rating_text",
-      "label": "Rating caption",
+      "label": "Rating text",
       "default": "from 8,000+ reviews"
     },
     {
@@ -251,39 +106,39 @@
   "blocks": [
     {
       "type": "review",
-      "name": "Customer review",
+      "name": "Review",
       "settings": [
         {
           "type": "range",
           "id": "rating",
+          "label": "Rating",
           "min": 1,
           "max": 5,
           "step": 1,
-          "default": 5,
-          "label": "Rating (stars)"
+          "default": 5
         },
         {
           "type": "text",
           "id": "heading",
-          "label": "Review title",
+          "label": "Review heading",
           "default": "Works like a charm"
         },
         {
           "type": "textarea",
           "id": "text",
-          "label": "Review text",
+          "label": "Review content",
           "default": "Finally an eco option that cleans as well as the chemical detergent I used for years, and it smells better."
         },
         {
           "type": "text",
           "id": "author",
-          "label": "Customer name",
+          "label": "Author name",
           "default": "Anita"
         },
         {
           "type": "text",
           "id": "product_label",
-          "label": "Product purchased",
+          "label": "Product label",
           "default": "Laundry detergent"
         }
       ]
@@ -293,56 +148,11 @@
     {
       "name": "Reviews",
       "blocks": [
-        {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "heading": "Works like a charm",
-            "text": "Finally an eco option that cleans as well as the chemical detergent I used for years, and it smells better.",
-            "author": "Anita",
-            "product_label": "Laundry detergent"
-          }
-        },
-        {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "heading": "Best dishwash ever",
-            "text": "Our old dishwash left my help with dry, cracked skin. That stopped completely after we switched.",
-            "author": "Priya",
-            "product_label": "Dishwash gel"
-          }
-        },
-        {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "heading": "Great product, great packaging",
-            "text": "Very soft on hands with a lovely fragrance, and it feels good to be using far less plastic.",
-            "author": "Sunita",
-            "product_label": "Liquid handwash"
-          }
-        },
-        {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "heading": "Dog friendly",
-            "text": "We switched because chemical floor cleaners were setting off my dog's allergies. No reactions since.",
-            "author": "Rohit S.",
-            "product_label": "Floor cleaner"
-          }
-        },
-        {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "heading": "Sparkling taps again",
-            "text": "Hard water had ruined our bathroom fittings. Two sprays and the scale wipes straight off, no scrubbing.",
-            "author": "Verified buyer",
-            "product_label": "Tap cleaner"
-          }
-        }
+        { "type": "review", "settings": { "heading": "Works like a charm", "text": "Finally an eco option that cleans as well as the chemical detergent I used for years, and it smells better.", "author": "Anita", "product_label": "Laundry detergent" } },
+        { "type": "review", "settings": { "heading": "Best dishwash ever", "text": "Our old dishwash left my help with dry, cracked skin. That stopped completely after we switched.", "author": "Priya", "product_label": "Dishwash gel" } },
+        { "type": "review", "settings": { "heading": "Great product, great packaging", "text": "Very soft on hands with a lovely fragrance, and it feels good to be using far less plastic.", "author": "Sunita", "product_label": "Liquid handwash" } },
+        { "type": "review", "settings": { "heading": "Dog friendly", "text": "We switched because chemical floor cleaners were setting off my dog's allergies. No reactions since.", "author": "Rohit S.", "product_label": "Floor cleaner" } },
+        { "type": "review", "settings": { "heading": "Sparkling taps again", "text": "Hard water had ruined our bathroom fittings. Two sprays and the scale wipes straight off, no scrubbing.", "author": "Verified buyer", "product_label": "Tap cleaner" } }
       ]
     }
   ]

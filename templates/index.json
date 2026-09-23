@@ -1,84 +1,274 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "hero": {
+      "type": "hero",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "badge_1": {
+          "type": "badge",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "icon": "leaf",
+            "text": "Plant<br>powered"
           }
         },
-        "button": {
-          "type": "buttons",
+        "badge_2": {
+          "type": "badge",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "icon": "shield",
+            "text": "Safe for<br>kids & pets"
+          }
+        },
+        "badge_3": {
+          "type": "badge",
+          "settings": {
+            "icon": "ban",
+            "text": "Zero harsh<br>chemicals"
+          }
+        },
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "price_label": "Single bottle",
+            "price": "₹200",
+            "compare_at_price": "₹299",
+            "discount_text": "33% off"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "price_label": "Any 2 products",
+            "price": "₹349",
+            "compare_at_price": "₹598",
+            "discount_text": "Save ₹249"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "price_label": "Any 3 products",
+            "price": "₹499",
+            "compare_at_price": "₹897",
+            "discount_text": "Save ₹398"
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "badge_1",
+        "badge_2",
+        "badge_3",
+        "slide_1",
+        "slide_2",
+        "slide_3"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "heading": "Clean That",
+        "accent_heading": "Lasts",
+        "lede": "Homecare that works on the toughest grime, made from plants. Kind to your home, your family and the world outside it."
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "reviews": {
+      "type": "reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "Works like a charm",
+            "text": "Finally an eco option that cleans as well as the chemical detergent I used for years, and it smells better.",
+            "author": "Anita",
+            "product_label": "Laundry detergent"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "Best dishwash ever",
+            "text": "Our old dishwash left my help with dry, cracked skin. That stopped completely after we switched.",
+            "author": "Priya",
+            "product_label": "Dishwash gel"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "Great product, great packaging",
+            "text": "Very soft on hands with a lovely fragrance, and it feels good to be using far less plastic.",
+            "author": "Sunita",
+            "product_label": "Liquid handwash"
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "Dog friendly",
+            "text": "We switched because chemical floor cleaners were setting off my dog's allergies. No reactions since.",
+            "author": "Rohit S.",
+            "product_label": "Floor cleaner"
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "Sparkling taps again",
+            "text": "Hard water had ruined our bathroom fittings. Two sprays and the scale wipes straight off, no scrubbing.",
+            "author": "Verified buyer",
+            "product_label": "Tap cleaner"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5"
+      ],
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "kicker": "That's what they said",
+        "rating_text": "from 8,000+ reviews",
+        "secondary_stat": "Loved by <b>12 lakh+</b> homes"
       }
+    },
+    "ingredients": {
+      "type": "ingredients",
+      "settings": {
+        "heading": "Sourced from nature"
+      }
+    },
+    "proof": {
+      "type": "proof",
+      "settings": {
+        "kicker": "Why it works",
+        "heading": "Tough on grime.<br>Gentle on everything else.",
+        "lede": "Every formula is built on plant-derived cleansers and essential oils. It behaves exactly like the cleaner you are used to, minus the things you never signed up for."
+      }
+    },
+    "combos": {
+      "type": "combos",
+      "blocks": {
+        "combo_1": {
+          "type": "combo",
+          "settings": {
+            "flag_text": "Most popular",
+            "savings_text": "You save ₹398",
+            "cta_style": "ghost"
+          }
+        },
+        "combo_2": {
+          "type": "combo",
+          "settings": {
+            "flag_text": "",
+            "savings_text": "You save ₹448",
+            "cta_style": "ghost"
+          }
+        },
+        "combo_3": {
+          "type": "combo",
+          "settings": {
+            "highlight": true,
+            "flag_text": "Best value",
+            "savings_text": "Biggest saving",
+            "cta_style": "primary"
+          }
+        },
+        "combo_4": {
+          "type": "combo",
+          "settings": {
+            "flag_text": "",
+            "savings_text": "You save ₹398",
+            "cta_style": "ghost"
+          }
+        },
+        "combo_5": {
+          "type": "combo",
+          "settings": {
+            "flag_text": "",
+            "savings_text": "You save ₹249",
+            "cta_style": "ghost"
+          }
+        }
+      },
+      "block_order": [
+        "combo_1",
+        "combo_2",
+        "combo_3",
+        "combo_4",
+        "combo_5"
+      ],
+      "settings": {
+        "kicker": "Pre-built to save you money",
+        "heading": "Best selling combos",
+        "lede": "Swipe through the boxes people order most. Each one is already priced below buying the same products on their own."
+      }
+    },
+    "bundles": {
+      "type": "bundles",
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "tag_text": "Starter",
+            "highlight": false,
+            "fine_text": "Flat ₹174 per product",
+            "cta_style": "ghost"
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "tag_text": "Most popular",
+            "highlight": true,
+            "fine_text": "Flat ₹166 per product",
+            "cta_style": "primary"
+          }
+        },
+        "tier_3": {
+          "type": "tier",
+          "settings": {
+            "tag_text": "Whole home",
+            "highlight": false,
+            "fine_text": "Flat ₹160 per product",
+            "cta_style": "ghost"
+          }
+        }
+      },
+      "block_order": [
+        "tier_1",
+        "tier_2",
+        "tier_3"
+      ],
+      "settings": {
+        "kicker": "Build your bundle",
+        "heading": "One box. Every room.",
+        "lede": "Mix and match across kitchen, laundry, home and skin. One flat price, no code needed, free shipping either way."
+      }
+    },
+    "shop": {
+      "type": "shop",
+      "settings": {
+        "kicker": "Bestsellers",
+        "heading": "Loved by 30,000 homes",
+        "collection": "best-sellers",
+        "products_to_show": 8
+      }
+    },
+    "why_bundles": {
+      "type": "why-bundles",
+      "settings": {}
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "hero",
+    "reviews",
+    "ingredients",
+    "proof",
+    "combos",
+    "bundles",
+    "shop",
+    "why_bundles"
   ]
 }
