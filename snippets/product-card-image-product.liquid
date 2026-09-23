@@ -1,0 +1,33 @@
+{%- liquid
+  assign badge = card_product.metafields.purelane.badge.value
+  if badge == blank and card_product.compare_at_price > card_product.price
+    assign badge = 'Sale'
+  endif
+-%}
+
+<div class="product-card__shot">
+  {%- if badge != blank -%}
+    <span class="product-card__pill">{{ badge }}</span>
+  {%- endif -%}
+
+  {%- if card_product.featured_media -%}
+    {{
+      card_product.featured_media
+      | image_url: width: 600
+      | image_tag:
+        loading: 'lazy',
+        sizes: '(min-width: 860px) 25vw, (min-width: 600px) 50vw, 100vw',
+        widths: '160, 240, 320, 480, 600',
+        class: 'product-card__img',
+        alt: card_product.featured_media.alt | escape
+    }}
+  {%- else -%}
+    {{ 'product-1' | placeholder_svg_tag: 'product-card__no-image' }}
+  {%- endif -%}
+
+  {%- if sold_out -%}
+    <div class="product-card__sold-out-badge">
+      <span>Sold out</span>
+    </div>
+  {%- endif -%}
+</div>

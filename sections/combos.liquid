@@ -1,0 +1,449 @@
+{%- style -%}
+  .combos-section-{{ section.id }} {
+    padding: var(--sec-y, 34px) 0;
+  }
+  .combos-section__wrap {
+    max-width: var(--maxw, 1180px);
+    margin: 0 auto;
+    padding: 0 18px;
+  }
+  .combos-section__panel-head {
+    text-align: center;
+    margin-bottom: 26px;
+  }
+  .combos-section__kicker {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(var(--pl-paper, 236, 230, 247), .52);
+  }
+  .combos-section__heading {
+    font-family: 'Outfit', system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -.018em;
+    font-weight: 800;
+    line-height: .94;
+    font-size: clamp(30px, 4.6vw, 54px);
+    color: rgb(var(--pl-surface, 250, 247, 253));
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  .combos-section__rule {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin: 0 auto;
+    max-width: 240px;
+    justify-content: center;
+  }
+  .combos-section__rule i {
+    height: 1px;
+    flex: 1;
+    background: linear-gradient(90deg, rgba(236,230,247,.44), transparent);
+  }
+  .combos-section__rule i:first-child {
+    background: linear-gradient(90deg, transparent, rgba(236,230,247,.44));
+  }
+  .combos-section__rule svg {
+    width: 16px;
+    height: 16px;
+    color: rgb(var(--pl-accent, 240, 160, 60));
+    flex: 0 0 auto;
+  }
+  .combos-section__lede {
+    font-size: clamp(15px, 1.35vw, 17.5px);
+    color: rgba(var(--pl-paper, 236, 230, 247), .74);
+    max-width: 44ch;
+    margin: 14px auto 0;
+    line-height: 1.62;
+  }
+  .comborail {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    margin: 0 -18px;
+    padding: 4px 18px 14px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .comborail::-webkit-scrollbar {
+    display: none;
+  }
+  .comborail:focus-visible {
+    outline: 2px solid rgb(var(--pl-accent, 240, 160, 60));
+    outline-offset: -2px;
+  }
+  .comborail .product-card--combo {
+    flex: 0 0 302px;
+    scroll-snap-align: start;
+  }
+  @media (max-width: 760px) {
+    .comborail {
+      margin: 0 -14px;
+      padding: 4px 14px 12px;
+    }
+    .comborail .product-card--combo {
+      flex: 0 0 268px;
+    }
+  }
+  .product-card__tray {
+    padding: 14px 14px 13px;
+    border-bottom: 1px solid rgba(236,230,247,.13);
+    position: relative;
+    background: linear-gradient(162deg, rgba(236,230,247,.13), rgba(75,58,143,.10));
+  }
+  .product-card__save-pill {
+    display: inline-block;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: rgba(3,30,28,.72);
+    border: 1px solid rgba(var(--pl-accent, 240, 160, 60), .34);
+    color: rgb(var(--pl-accent, 240, 160, 60));
+    margin-bottom: 13px;
+  }
+  .product-card__flag-pill {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-size: 8.6px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgb(var(--pl-accent-2, 201, 118, 29)), rgb(var(--pl-cta, 93, 141, 28)));
+    color: #08211a;
+  }
+  .product-card__stack {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+  }
+  .product-card__stack-item {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+  }
+  .product-card__stack-img {
+    height: 66px;
+    width: auto;
+    object-fit: contain;
+    margin: 0 auto 8px;
+    filter: drop-shadow(0 8px 13px rgba(1,24,22,.5));
+  }
+  .product-card__stack-placeholder {
+    height: 66px;
+    width: 44px;
+    margin: 0 auto 8px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    background: rgba(236,230,247,.08);
+    border: 1px dashed rgba(236,230,247,.26);
+    color: rgb(var(--pl-accent, 240, 160, 60));
+  }
+  .product-card__stack-placeholder svg {
+    width: 17px;
+    height: 17px;
+  }
+  .product-card__stack-item span {
+    display: block;
+    font-size: 8.6px;
+    line-height: 1.32;
+    color: rgba(var(--pl-paper, 236, 230, 247), .74);
+    font-weight: 600;
+  }
+  .product-card__stack-plus {
+    flex: 0 0 9px;
+    color: rgb(var(--pl-accent, 240, 160, 60));
+    font-weight: 800;
+    font-size: 12px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+  .product-card__combo-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -.005em;
+    line-height: 1.1;
+    color: rgb(var(--pl-surface, 250, 247, 253));
+  }
+  .product-card__component-count {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(var(--pl-paper, 236, 230, 247), .52);
+    margin-top: 6px;
+  }
+  .product-card__combo-description {
+    font-size: 12.4px;
+    color: rgba(var(--pl-paper, 236, 230, 247), .74);
+    line-height: 1.55;
+    margin: 11px 0 14px;
+    flex: 1;
+  }
+  .swipecue {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: rgba(var(--pl-paper, 236, 230, 247), .52);
+    margin-top: 14px;
+  }
+  .swipecue svg {
+    width: 14px;
+    height: 14px;
+    color: rgb(var(--pl-accent, 240, 160, 60));
+  }
+  .railnote {
+    text-align: center;
+    font-size: 12px;
+    color: rgba(var(--pl-paper, 236, 230, 247), .52);
+    margin-top: 14px;
+    max-width: 62ch;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .comborail {
+      scroll-behavior: auto !important;
+    }
+  }
+{%- endstyle -%}
+
+<section class="sec combos-section-{{ section.id }} color-{{ section.settings.color_scheme }} gradient" id="combos" data-section-id="{{ section.id }}">
+  <div class="combos-section__wrap">
+    <div class="combos-section__panel-head">
+      {%- if section.settings.kicker != blank -%}
+        <span class="combos-section__kicker">{{ section.settings.kicker }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="combos-section__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      <div class="combos-section__rule" aria-hidden="true">
+        <i></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+        <i></i>
+      </div>
+      {%- if section.settings.lede != blank -%}
+        <p class="combos-section__lede">{{ section.settings.lede }}</p>
+      {%- endif -%}
+    </div>
+
+    <combo-rail class="combo-rail-component">
+      <div
+        class="comborail"
+        role="region"
+        aria-label="{{ section.settings.heading | default: 'Best selling combos' }}"
+        tabindex="0"
+      >
+        {%- if section.blocks.size > 0 -%}
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign combo_product = block.settings.product
+            -%}
+            {%- if combo_product != blank -%}
+              {%- render 'product-card',
+                card_product: combo_product,
+                card_type: 'combo',
+                highlight: block.settings.highlight,
+                flag_text: block.settings.flag_text,
+                savings_text: block.settings.savings_text,
+                fine_text: block.settings.fine_text,
+                cta_style: block.settings.cta_style,
+                section_id: section.id
+              -%}
+            {%- else -%}
+              <article class="product-card product-card--combo{% if block.settings.highlight %} product-card--highlight{% endif %}" aria-label="Combo {{ forloop.index }}" {{ block.shopify_attributes }}>
+                <div class="product-card__tray">
+                  <span class="product-card__save-pill">{{ block.settings.savings_text | default: 'You save ₹398' }}</span>
+                  {%- if block.settings.flag_text != blank -%}
+                    <span class="product-card__flag-pill">{{ block.settings.flag_text }}</span>
+                  {%- endif -%}
+                  <div class="product-card__stack" aria-hidden="true">
+                    <div class="product-card__stack-item"><div class="product-card__stack-placeholder">{{ 'product-1' | placeholder_svg_tag }}</div><span>Cleaner 1</span></div>
+                    <span class="product-card__stack-plus">+</span>
+                    <div class="product-card__stack-item"><div class="product-card__stack-placeholder">{{ 'product-2' | placeholder_svg_tag }}</div><span>Cleaner 2</span></div>
+                    <span class="product-card__stack-plus">+</span>
+                    <div class="product-card__stack-item"><div class="product-card__stack-placeholder">{{ 'product-3' | placeholder_svg_tag }}</div><span>Cleaner 3</span></div>
+                  </div>
+                </div>
+                <div class="product-card__body">
+                  <h3 class="product-card__combo-title">Combo Set {{ forloop.index }}</h3>
+                  <div class="product-card__component-count">3 products</div>
+                  <p class="product-card__combo-description">Includes top plant-powered essentials for spotless living.</p>
+                  <div class="product-card__price-row"><strong>₹499</strong><s>₹897</s><em>Save ₹398</em></div>
+                  <p class="product-card__fine">Inclusive of all taxes &middot; COD available</p>
+                  <div class="product-card__cta">
+                    <a href="#bundles" class="btn {% if block.settings.cta_style == 'primary' %}btn-primary{% else %}btn-ghost{% endif %}">
+                      <span>Shop bundle</span>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </combo-rail>
+
+    {%- if section.settings.swipe_cue_text != blank -%}
+      <div class="swipecue" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+        {{ section.settings.swipe_cue_text }}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.rail_note != blank -%}
+      <p class="railnote">{{ section.settings.rail_note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  if (!customElements.get('combo-rail')) {
+    customElements.define('combo-rail', class ComboRail extends HTMLElement {
+      connectedCallback() {
+        this.rail = this.querySelector('.comborail');
+        if (!this.rail) return;
+
+        this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        this.rail.addEventListener('keydown', (e) => this.handleKeyDown(e));
+      }
+
+      handleKeyDown(event) {
+        const step = 316;
+        const behavior = this.reducedMotion ? 'auto' : 'smooth';
+
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          this.rail.scrollBy({ left: step, behavior });
+        } else if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          this.rail.scrollBy({ left: -step, behavior });
+        }
+      }
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Combos",
+  "tag": "section",
+  "class": "section-combos",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker text",
+      "default": "Pre-built to save you money"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Best selling combos"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Lede text",
+      "default": "Swipe through the boxes people order most. Each one is already priced below buying the same products on their own."
+    },
+    {
+      "type": "text",
+      "id": "swipe_cue_text",
+      "label": "Swipe cue text",
+      "default": "Swipe for more combos"
+    },
+    {
+      "type": "text",
+      "id": "rail_note",
+      "label": "Rail note text",
+      "default": "Tapping \"Shop bundle\" opens the bundle picker with these products already added. You can still swap anything before you pay."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "combo",
+      "name": "Combo card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Combo product"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Highlight card (hero accent border)",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "flag_text",
+          "label": "Flag pill text",
+          "default": "Most popular"
+        },
+        {
+          "type": "text",
+          "id": "savings_text",
+          "label": "Savings pill text",
+          "default": "You save ₹398"
+        },
+        {
+          "type": "text",
+          "id": "fine_text",
+          "label": "Fine print",
+          "default": "Inclusive of all taxes · COD available"
+        },
+        {
+          "type": "select",
+          "id": "cta_style",
+          "label": "CTA button style",
+          "options": [
+            { "value": "ghost", "label": "Ghost" },
+            { "value": "primary", "label": "Primary" }
+          ],
+          "default": "ghost"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Combos",
+      "blocks": [
+        { "type": "combo", "settings": { "flag_text": "Most popular", "savings_text": "You save ₹398", "cta_style": "ghost" } },
+        { "type": "combo", "settings": { "flag_text": "", "savings_text": "You save ₹448", "cta_style": "ghost" } },
+        { "type": "combo", "settings": { "highlight": true, "flag_text": "Best value", "savings_text": "Biggest saving", "cta_style": "primary" } },
+        { "type": "combo", "settings": { "flag_text": "", "savings_text": "You save ₹398", "cta_style": "ghost" } },
+        { "type": "combo", "settings": { "flag_text": "", "savings_text": "You save ₹249", "cta_style": "ghost" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

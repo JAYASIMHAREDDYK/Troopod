@@ -1,0 +1,22 @@
+{%- liquid
+  assign qty = card_product.metafields.purelane.bundle_size.value | default: 2
+  assign features = card_product.metafields.purelane.features.value
+-%}
+
+<div class="product-card__qty">
+  {{ qty }}
+  <small>Products</small>
+</div>
+
+{%- if features != blank -%}
+  <ul class="product-card__features" role="list">
+    {%- for feature in features -%}
+      <li class="product-card__feature-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m5 13 4 4L19 7"/>
+        </svg>
+        <span>{{ feature }}</span>
+      </li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

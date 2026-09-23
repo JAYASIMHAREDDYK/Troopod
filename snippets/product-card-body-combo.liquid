@@ -1,0 +1,20 @@
+{%- liquid
+  assign comp_count = card_product.metafields.purelane.components.value.size
+  if comp_count == blank or comp_count == 0
+    assign comp_count = card_product.metafields.purelane.bundle_size.value | default: 3
+  endif
+-%}
+
+<h3 class="product-card__combo-title">
+  {{ card_product.title }}
+</h3>
+
+<div class="product-card__component-count">
+  {{ comp_count }} products
+</div>
+
+{%- if card_product.description != blank -%}
+  <p class="product-card__combo-description">
+    {{ card_product.description | strip_html }}
+  </p>
+{%- endif -%}

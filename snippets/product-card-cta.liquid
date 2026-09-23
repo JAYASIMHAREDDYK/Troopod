@@ -1,0 +1,39 @@
+{%- liquid
+  assign btn_class = 'btn'
+  if cta_style == 'primary'
+    assign btn_class = btn_class | append: ' btn-primary'
+  else
+    assign btn_class = btn_class | append: ' btn-ghost'
+  endif
+  if card_type == 'product'
+    assign btn_class = btn_class | append: ' btn-sm'
+  endif
+-%}
+
+{%- if card_type == 'product' -%}
+  {%- form 'product', card_product -%}
+    <input type="hidden" name="id" value="{{ card_product.selected_or_first_available_variant.id }}">
+    <button
+      type="submit"
+      name="add"
+      class="{{ btn_class }}"
+      {% if sold_out %}disabled aria-disabled="true"{% endif %}
+      aria-label="{% if sold_out %}Sold out: {{ card_product.title | escape }}{% else %}Add {{ card_product.title | escape }} to cart{% endif %}"
+    >
+      <span>{% if sold_out %}Sold out{% else %}{{ cta_text | default: 'Add to cart' }}{% endif %}</span>
+    </button>
+  {%- endform -%}
+{%- else -%}
+  <a
+    href="{{ card_product.url | default: '#bundles' }}"
+    class="{{ btn_class }}"
+    aria-label="{{ cta_text | default: 'View details' }}: {{ card_product.title | escape }}"
+  >
+    <span>{{ cta_text | default: 'Shop bundle' }}</span>
+    {%- if card_type == 'combo' or cta_style == 'primary' -%}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h13m-5-6 6 6-6 6"/>
+      </svg>
+    {%- endif -%}
+  </a>
+{%- endif -%}

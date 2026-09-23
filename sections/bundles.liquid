@@ -1,0 +1,342 @@
+{%- style -%}
+  .bundles-section-{{ section.id }} {
+    padding: var(--sec-y, 34px) 0;
+  }
+  .bundles-section__wrap {
+    max-width: var(--maxw, 1180px);
+    margin: 0 auto;
+    padding: 0 18px;
+  }
+  .bundles-intro {
+    padding: clamp(26px, 3.4vw, 40px);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .bundles-intro__kicker {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(var(--pl-paper, 236, 230, 247), .52);
+  }
+  .bundles-intro__heading {
+    font-family: 'Outfit', system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -.018em;
+    font-weight: 800;
+    line-height: .94;
+    font-size: clamp(30px, 4.6vw, 54px);
+    color: rgb(var(--pl-surface, 250, 247, 253));
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  .bundles-intro__lede {
+    font-size: clamp(15px, 1.35vw, 17.5px);
+    color: rgba(var(--pl-paper, 236, 230, 247), .74);
+    max-width: 44ch;
+    margin: 0 auto;
+    line-height: 1.62;
+  }
+  .tiers-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 760px) {
+    .tiers-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .product-card__tag-pill {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    padding: 5px 11px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+    background: rgba(var(--pl-accent, 240, 160, 60), .18);
+    border: 1px solid rgba(var(--pl-accent, 240, 160, 60), .34);
+    color: rgb(var(--pl-accent, 240, 160, 60));
+  }
+  .product-card__tier-images {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 2px;
+    height: 78px;
+    margin: -4px 0 16px;
+    padding: 8px 6px;
+    border-radius: 14px;
+    background: linear-gradient(162deg, rgba(236,230,247,.10), rgba(75,58,143,.12));
+    border: 1px solid rgba(236,230,247,.12);
+  }
+  .product-card__tier-img {
+    height: 62px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 12px rgba(1,24,22,.5));
+  }
+  .product-card__tier-images--dense .product-card__tier-img {
+    height: 54px;
+  }
+  .product-card__tier-placeholder {
+    height: 62px;
+    width: 40px;
+    display: grid;
+    place-items: center;
+    color: rgb(var(--pl-accent, 240, 160, 60));
+  }
+  .product-card__tier-placeholder svg {
+    height: 38px;
+    width: auto;
+  }
+  .product-card__qty {
+    order: 1;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 52px;
+    line-height: .9;
+    color: rgb(var(--pl-surface, 250, 247, 253));
+    letter-spacing: -.03em;
+  }
+  .product-card__qty small {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(var(--pl-paper, 236, 230, 247), .52);
+    display: block;
+    margin-top: 6px;
+  }
+  .product-card__features {
+    order: 4;
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .product-card__feature-item {
+    display: flex;
+    gap: 9px;
+    font-size: 13px;
+    color: rgba(var(--pl-paper, 236, 230, 247), .74);
+    align-items: flex-start;
+  }
+  .product-card__feature-item svg {
+    width: 14px;
+    height: 14px;
+    color: rgb(var(--pl-accent, 240, 160, 60));
+    flex: 0 0 auto;
+    margin-top: 4px;
+  }
+  @media (max-width: 760px) {
+    .product-card__qty {
+      font-size: 44px;
+    }
+    .product-card__tier-images {
+      height: 70px;
+    }
+    .product-card__tier-img {
+      height: 54px;
+    }
+    .product-card__tier-images--dense .product-card__tier-img {
+      height: 46px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="sec bundles-section-{{ section.id }} color-{{ section.settings.color_scheme }} gradient" id="bundles" data-section-id="{{ section.id }}">
+  <div class="bundles-section__wrap">
+    <div class="glass bundles-intro">
+      {%- if section.settings.kicker != blank -%}
+        <span class="bundles-intro__kicker">{{ section.settings.kicker }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="bundles-intro__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.lede != blank -%}
+        <p class="bundles-intro__lede">{{ section.settings.lede }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="tiers-grid">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign tier_product = block.settings.product
+          -%}
+          {%- if tier_product != blank -%}
+            {%- render 'product-card',
+              card_product: tier_product,
+              card_type: 'tier',
+              highlight: block.settings.highlight,
+              tag_text: block.settings.tag_text,
+              fine_text: block.settings.fine_text,
+              cta_text: block.settings.cta_text,
+              cta_style: block.settings.cta_style,
+              section_id: section.id
+            -%}
+          {%- else -%}
+            {%- liquid
+              assign default_qty = 2
+              if forloop.index == 2
+                assign default_qty = 3
+              elsif forloop.index == 3
+                assign default_qty = 5
+              endif
+            -%}
+            <article class="product-card product-card--tier{% if block.settings.highlight %} product-card--highlight{% endif %}" aria-label="Tier {{ forloop.index }}" {{ block.shopify_attributes }}>
+              <span class="product-card__tag-pill">{{ block.settings.tag_text | default: 'Bundle' }}</span>
+              <div class="product-card__tier-images" aria-hidden="true">
+                <div class="product-card__tier-placeholder">{{ 'product-1' | placeholder_svg_tag }}</div>
+              </div>
+              <div class="product-card__body">
+                <div class="product-card__qty">{{ default_qty }}<small>Products</small></div>
+                <div class="product-card__price-row"><strong>₹{{ default_qty | times: 160 }}</strong></div>
+                <p class="product-card__fine">{{ block.settings.fine_text | default: 'Flat ₹160 per product' }}</p>
+                <ul class="product-card__features" role="list">
+                  <li class="product-card__feature-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>
+                    <span>Pick any {{ default_qty }} products</span>
+                  </li>
+                  <li class="product-card__feature-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>
+                    <span>Free shipping across India</span>
+                  </li>
+                </ul>
+                <div class="product-card__cta">
+                  <a href="#shop" class="btn {% if block.settings.cta_style == 'primary' %}btn-primary{% else %}btn-ghost{% endif %}">
+                    <span>{{ block.settings.cta_text | default: 'Build this box' }}</span>
+                    {%- if block.settings.cta_style == 'primary' -%}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+                    {%- endif -%}
+                  </a>
+                </div>
+              </div>
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bundles",
+  "tag": "section",
+  "class": "section-bundles",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker text",
+      "default": "Build your bundle"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "One box. Every room."
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "label": "Lede text",
+      "default": "Mix and match across kitchen, laundry, home and skin. One flat price, no code needed, free shipping either way."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Bundle tier",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Tier product"
+        },
+        {
+          "type": "text",
+          "id": "tag_text",
+          "label": "Tag text",
+          "default": "Starter"
+        },
+        {
+          "type": "checkbox",
+          "id": "highlight",
+          "label": "Most popular highlight",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "fine_text",
+          "label": "Per-product fine print",
+          "default": "Flat ₹174 per product"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA button label",
+          "default": "Build this box"
+        },
+        {
+          "type": "select",
+          "id": "cta_style",
+          "label": "CTA button style",
+          "options": [
+            { "value": "ghost", "label": "Ghost" },
+            { "value": "primary", "label": "Primary" }
+          ],
+          "default": "ghost"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundles",
+      "blocks": [
+        {
+          "type": "tier",
+          "settings": {
+            "tag_text": "Starter",
+            "highlight": false,
+            "fine_text": "Flat ₹174 per product",
+            "cta_style": "ghost"
+          }
+        },
+        {
+          "type": "tier",
+          "settings": {
+            "tag_text": "Most popular",
+            "highlight": true,
+            "fine_text": "Flat ₹166 per product",
+            "cta_style": "primary"
+          }
+        },
+        {
+          "type": "tier",
+          "settings": {
+            "tag_text": "Whole home",
+            "highlight": false,
+            "fine_text": "Flat ₹160 per product",
+            "cta_style": "ghost"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

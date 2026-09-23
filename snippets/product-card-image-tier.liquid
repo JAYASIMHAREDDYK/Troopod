@@ -1,0 +1,29 @@
+{%- liquid
+  assign tag = tag_text | default: card_product.metafields.purelane.badge.value
+  assign components = card_product.metafields.purelane.components.value
+  assign comp_count = components.size | default: 0
+-%}
+
+{%- if tag != blank -%}
+  <span class="product-card__tag-pill">{{ tag }}</span>
+{%- endif -%}
+
+<div class="product-card__tier-images{% if comp_count >= 5 %} product-card__tier-images--dense{% endif %}" aria-hidden="true">
+  {%- if components != blank and comp_count > 0 -%}
+    {%- for comp in components -%}
+      {%- if comp.featured_media -%}
+        {{ comp.featured_media | image_url: width: 120 | image_tag: loading: 'lazy', class: 'product-card__tier-img', alt: comp.title | escape }}
+      {%- else -%}
+        <div class="product-card__tier-placeholder">
+          {{ 'product-2' | placeholder_svg_tag }}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- elsif card_product.featured_media -%}
+    {{ card_product.featured_media | image_url: width: 240 | image_tag: loading: 'lazy', class: 'product-card__tier-img', alt: card_product.title | escape }}
+  {%- else -%}
+    <div class="product-card__tier-placeholder">
+      {{ 'product-1' | placeholder_svg_tag }}
+    </div>
+  {%- endif -%}
+</div>

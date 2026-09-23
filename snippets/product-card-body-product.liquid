@@ -1,0 +1,17 @@
+{%- liquid
+  assign rating = card_product.metafields.purelane.rating.value
+  assign review_count = card_product.metafields.purelane.review_count.value
+-%}
+
+<h3 class="product-card__title">
+  {{ card_product.title }}
+</h3>
+
+{%- if rating != blank -%}
+  <div class="product-card__rating">
+    <b>&#9733; {{ rating }}</b>
+    {%- if review_count != blank and review_count > 0 -%}
+      <span>&middot; {{ review_count }} reviews</span>
+    {%- endif -%}
+  </div>
+{%- endif -%}

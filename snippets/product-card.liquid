@@ -1,0 +1,58 @@
+{%- liquid
+  assign card_type = card_type | default: 'product'
+  assign sold_out = false
+  if card_product.available == false
+    assign sold_out = true
+  endif
+-%}
+
+<article class="product-card product-card--{{ card_type }}{% if highlight %} product-card--highlight{% endif %}{% if sold_out %} product-card--sold-out{% endif %}" aria-label="{{ card_product.title | escape }}">
+  {%- case card_type -%}
+    {%- when 'product' -%}
+      {%- render 'product-card-image-product', card_product: card_product, sold_out: sold_out -%}
+    {%- when 'combo' -%}
+      {%- render 'product-card-image-combo', card_product: card_product, flag_text: flag_text, savings_text: savings_text -%}
+    {%- when 'tier' -%}
+      {%- render 'product-card-image-tier', card_product: card_product, tag_text: tag_text -%}
+  {%- endcase -%}
+
+  <div class="product-card__body">
+    {%- case card_type -%}
+      {%- when 'product' -%}
+        {%- render 'product-card-body-product', card_product: card_product -%}
+      {%- when 'combo' -%}
+        {%- render 'product-card-body-combo', card_product: card_product -%}
+      {%- when 'tier' -%}
+        {%- render 'product-card-body-tier', card_product: card_product -%}
+    {%- endcase -%}
+
+    <div class="product-card__price-row">
+      <strong>{{ card_product.price | money_without_trailing_zeros }}</strong>
+      {%- if card_product.compare_at_price > card_product.price -%}
+        <s>{{ card_product.compare_at_price | money_without_trailing_zeros }}</s>
+        {%- case card_type -%}
+          {%- when 'product' -%}
+            {%- assign discount_percent = card_product.compare_at_price | minus: card_product.price | times: 100.0 | divided_by: card_product.compare_at_price | round -%}
+            <em>{{ discount_percent }}% off</em>
+          {%- when 'combo' -%}
+            {%- assign savings_amount = card_product.compare_at_price | minus: card_product.price -%}
+            <em>Save {{ savings_amount | money_without_trailing_zeros }}</em>
+        {%- endcase -%}
+      {%- endif -%}
+    </div>
+
+    {%- if fine_text != blank -%}
+      <p class="product-card__fine">{{ fine_text }}</p>
+    {%- elsif card_type == 'combo' -%}
+      <p class="product-card__fine">Inclusive of all taxes &middot; COD available</p>
+    {%- elsif card_type == 'tier' and card_product.metafields.purelane.bundle_size.value -%}
+      {%- assign bundle_size = card_product.metafields.purelane.bundle_size.value -%}
+      {%- assign per_unit = card_product.price | divided_by: bundle_size -%}
+      <p class="product-card__fine">Flat {{ per_unit | money_without_trailing_zeros }} per product</p>
+    {%- endif -%}
+
+    <div class="product-card__cta">
+      {%- render 'product-card-cta', card_product: card_product, card_type: card_type, cta_text: cta_text, cta_style: cta_style, sold_out: sold_out -%}
+    </div>
+  </div>
+</article>

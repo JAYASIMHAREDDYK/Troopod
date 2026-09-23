@@ -1,0 +1,42 @@
+{%- liquid
+  assign components = card_product.metafields.purelane.components.value
+  assign labels = card_product.metafields.purelane.component_labels.value
+  assign savings = savings_text
+  if savings == blank and card_product.compare_at_price > card_product.price
+    assign savings_val = card_product.compare_at_price | minus: card_product.price
+    assign savings = 'You save ' | append: savings_val | money_without_trailing_zeros
+  endif
+-%}
+
+<div class="product-card__tray">
+  {%- if savings != blank -%}
+    <span class="product-card__save-pill">{{ savings }}</span>
+  {%- endif -%}
+  {%- if flag_text != blank -%}
+    <span class="product-card__flag-pill">{{ flag_text }}</span>
+  {%- endif -%}
+
+  <div class="product-card__stack" aria-hidden="true">
+    {%- if components != blank -%}
+      {%- for comp in components -%}
+        {%- unless forloop.first -%}
+          <span class="product-card__stack-plus">+</span>
+        {%- endunless -%}
+        <div class="product-card__stack-item">
+          {%- if comp.featured_media -%}
+            {{ comp.featured_media | image_url: width: 140 | image_tag: loading: 'lazy', class: 'product-card__stack-img', alt: comp.title | escape }}
+          {%- else -%}
+            <div class="product-card__stack-placeholder">
+              {{ 'product-1' | placeholder_svg_tag }}
+            </div>
+          {%- endif -%}
+          <span>{{ labels[forloop.index0] | default: comp.title | truncatewords: 3, '' }}</span>
+        </div>
+      {%- endfor -%}
+    {%- elsif card_product.featured_media -%}
+      <div class="product-card__stack-item">
+        {{ card_product.featured_media | image_url: width: 240 | image_tag: loading: 'lazy', class: 'product-card__stack-img', alt: card_product.title | escape }}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
