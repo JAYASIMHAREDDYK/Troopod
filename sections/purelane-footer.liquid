@@ -2,7 +2,7 @@
   <div class="wrap">
     <div class="fgrid">
       <div class="fcol">
-        <a class="brand" href="#top" style="margin-bottom:16px">
+        <a class="brand" href="{{ routes.root_url }}" style="margin-bottom:16px" aria-label="Purelane home">
           <span class="mark">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#b8701c" aria-hidden="true"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/><path d="M12 21v-6"/></svg>
           </span>
@@ -12,19 +12,19 @@
       </div>
       <div class="fcol">
         <h5>Shop</h5>
-        <a href="#shop">Bestsellers</a>
-        <a href="#shop">Kitchen</a>
-        <a href="#shop">Laundry</a>
-        <a href="#shop">Home</a>
-        <a href="#shop">Skin</a>
-        <a href="#bundles">Starter kits</a>
+        <a href="{% if template.name == 'index' %}#shop{% else %}{{ routes.root_url }}#shop{% endif %}">Bestsellers</a>
+        <a href="{% if template.name == 'index' %}#shop{% else %}{{ routes.root_url }}#shop{% endif %}">Kitchen</a>
+        <a href="{% if template.name == 'index' %}#shop{% else %}{{ routes.root_url }}#shop{% endif %}">Laundry</a>
+        <a href="{% if template.name == 'index' %}#shop{% else %}{{ routes.root_url }}#shop{% endif %}">Home</a>
+        <a href="{% if template.name == 'index' %}#shop{% else %}{{ routes.root_url }}#shop{% endif %}">Skin</a>
+        <a href="{% if template.name == 'index' %}#bundles{% else %}{{ routes.root_url }}#bundles{% endif %}">Starter kits</a>
       </div>
       <div class="fcol">
         <h5>About</h5>
-        <a href="#how">How it works</a>
-        <a href="#ingredients">Sustainability</a>
-        <a href="#proof">FAQs</a>
-        <a href="#voices">Reviews</a>
+        <a href="{% if template.name == 'index' %}#how{% else %}{{ routes.root_url }}#how{% endif %}">How it works</a>
+        <a href="{% if template.name == 'index' %}#ingredients{% else %}{{ routes.root_url }}#ingredients{% endif %}">Sustainability</a>
+        <a href="{% if template.name == 'index' %}#proof{% else %}{{ routes.root_url }}#proof{% endif %}">FAQs</a>
+        <a href="{% if template.name == 'index' %}#voices{% else %}{{ routes.root_url }}#voices{% endif %}">Reviews</a>
       </div>
       <div class="fcol">
         <h5>Get in touch</h5>

@@ -192,6 +192,74 @@ header.up{top:10px}
 }
 @media(min-width:1024px){.nav{display:flex}.burger{display:none}}
 
+/* ---------- MOBILE DRAWER ---------- */
+.mobile-drawer{
+  max-width:var(--maxw);
+  margin:10px auto 0;
+  padding:16px 20px;
+  border-radius:22px;
+  display:none;
+}
+.mobile-drawer:not([hidden]){
+  display:block;
+  animation:drawerIn .22s cubic-bezier(.2,.7,.2,1);
+}
+@keyframes drawerIn{
+  from{opacity:0;transform:translateY(-8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.mobile-nav{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.mobile-nav a{
+  font-family:'Outfit',sans-serif;
+  font-size:15px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  color:var(--surface);
+  padding:10px 6px;
+  border-bottom:1px solid rgba(75,58,143,.12);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  transition:.2s;
+}
+.mobile-nav a:hover{
+  color:var(--accent);
+  padding-left:10px;
+}
+.mobile-drawer-sub{
+  display:flex;
+  gap:20px;
+  padding-top:12px;
+}
+.mobile-drawer-sub a{
+  font-family:'Inter',sans-serif;
+  font-size:12.5px;
+  font-weight:600;
+  text-transform:none;
+  letter-spacing:0;
+  color:var(--paper-2);
+  border-bottom:none;
+  padding:4px 0;
+}
+.mobile-drawer-sub a:hover{
+  padding-left:0;
+  color:var(--surface);
+}
+@media(min-width:1024px){
+  .mobile-drawer{display:none !important}
+}
+
+/* Page Spacing for Non-Index Templates (Cart, Collections, Products) */
+main:not([data-template="index"]){
+  padding-top:120px;
+  min-height:70vh;
+}
+
 /* ---------- HERO ---------- */
 .hero{position:relative;z-index:2;min-height:100svh;display:flex;align-items:flex-end;padding:150px 0 var(--sec-y)}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;

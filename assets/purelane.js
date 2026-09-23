@@ -35,9 +35,18 @@
   }
 
   /* ---------- rail sync ---------- */
-  var railLinks = [].slice.call(document.querySelectorAll('.rail a'));
-  var targets = railLinks.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var rail = document.querySelector('.rail');
+  var railLinks = rail ? [].slice.call(rail.querySelectorAll('a')) : [];
+  var targets = railLinks.map(function (a) {
+    try {
+      var href = a.getAttribute('href');
+      return href && href.startsWith('#') ? document.querySelector(href) : null;
+    } catch (e) {
+      return null;
+    }
+  });
   function syncRail() {
+    if (!railLinks.length) return;
     var mid = window.scrollY + window.innerHeight * 0.42, idx = 0;
     targets.forEach(function (t, i) { if (t && t.offsetTop <= mid) idx = i; });
     railLinks.forEach(function (a, i) { a.classList.toggle('on', i === idx); });
@@ -164,4 +173,60 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   }
+
+  /* ---------- Mobile Drawer Toggle ---------- */
+  var burger = document.getElementById('burgerToggle');
+  var drawer = document.getElementById('mobileDrawer');
+  if (burger && drawer) {
+    burger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isHidden = drawer.hasAttribute('hidden');
+      if (isHidden) {
+        drawer.removeAttribute('hidden');
+        burger.setAttribute('aria-expanded', 'true');
+      } else {
+        drawer.setAttribute('hidden', '');
+        burger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!drawer.contains(e.target) && !burger.contains(e.target)) {
+        drawer.setAttribute('hidden', '');
+        burger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    drawer.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        drawer.setAttribute('hidden', '');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  /* ---------- Smooth Anchor Scrolling for On-page Links ---------- */
+  document.querySelectorAll('a[href*="#"]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var href = link.getAttribute('href');
+      if (!href) return;
+      var hashIdx = href.indexOf('#');
+      if (hashIdx === -1) return;
+      var hash = href.substring(hashIdx);
+      if (!hash || hash === '#') return;
+      try {
+        var target = document.querySelector(hash);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+          if (history.pushState) {
+            history.pushState(null, null, hash);
+          }
+        }
+      } catch (err) {
+        // If not a valid query selector or target doesn't exist, allow normal navigation
+      }
+    });
+  });
 });
+

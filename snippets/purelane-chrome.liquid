@@ -80,7 +80,7 @@
 
 <header id="hdr">
   <div class="navpill glass">
-    <a class="brand" href="#top" aria-label="Purelane home">
+    <a class="brand" href="{{ routes.root_url }}" aria-label="Purelane home">
       <span class="mark">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#b8701c">
           <path d="M12 3 20.5 8v8L12 21 3.5 16V8L12 3Z"/>
@@ -93,22 +93,43 @@
       </span>
     </a>
     <nav class="nav" aria-label="Main">
-      <a href="#top">Home</a>
-      <a href="#ingredients">Ingredients</a>
-      <a href="#how">How it works</a>
-      <a href="#shop">Shop</a>
-      <a href="#bundles">Bundles</a>
+      <a href="{{ routes.root_url }}">Home</a>
+      <a href="{% if template.name == 'index' %}#ingredients{% else %}{{ routes.root_url }}#ingredients{% endif %}">Ingredients</a>
+      <a href="{% if template.name == 'index' %}#how{% else %}{{ routes.root_url }}#how{% endif %}">How it works</a>
+      <a href="{% if template.name == 'index' %}#shop{% else %}{{ routes.root_url }}#shop{% endif %}">Shop</a>
+      <a href="{% if template.name == 'index' %}#bundles{% else %}{{ routes.root_url }}#bundles{% endif %}">Bundles</a>
     </nav>
     <div class="navtools">
-      <button class="ico hide-s" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
-      <button class="ico hide-s" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6"/></svg></button>
+      <a class="ico hide-s" href="{{ routes.search_url }}" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+      <a class="ico hide-s" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6"/></svg></a>
       <a class="ico" href="{{ routes.cart_url }}" aria-label="Cart, {{ cart.item_count }} items"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h2l2.2 10.4a1.6 1.6 0 0 0 1.6 1.3h7.6a1.6 1.6 0 0 0 1.6-1.3L20.5 9H6.4"/><circle cx="10" cy="20.5" r="1.1"/><circle cx="17.5" cy="20.5" r="1.1"/></svg><span class="dot">{{ cart.item_count }}</span></a>
-      <button class="ico burger" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg></button>
+      <button class="ico burger" id="burgerToggle" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg></button>
     </div>
+  </div>
+
+  <div class="mobile-drawer glass" id="mobileDrawer" hidden>
+    <nav class="mobile-nav">
+      <a href="{{ routes.root_url }}">Home</a>
+      <a href="{% if template.name == 'index' %}#ingredients{% else %}{{ routes.root_url }}#ingredients{% endif %}">Ingredients</a>
+      <a href="{% if template.name == 'index' %}#how{% else %}{{ routes.root_url }}#how{% endif %}">How it works</a>
+      <a href="{% if template.name == 'index' %}#shop{% else %}{{ routes.root_url }}#shop{% endif %}">Shop</a>
+      <a href="{% if template.name == 'index' %}#bundles{% else %}{{ routes.root_url }}#bundles{% endif %}">Bundles</a>
+      <div class="mobile-drawer-sub">
+        <a class="drawer-link-sub" href="{{ routes.search_url }}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" style="width:15px;height:15px;display:inline-block;vertical-align:middle;margin-right:4px"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          Search
+        </a>
+        <a class="drawer-link-sub" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" style="width:15px;height:15px;display:inline-block;vertical-align:middle;margin-right:4px"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6"/></svg>
+          Account
+        </a>
+      </div>
+    </nav>
   </div>
 </header>
 
 
+{% if template.name == 'index' %}
 <nav class="rail" aria-label="Section progress">
   <a href="#top" class="on" aria-label="Hero"></a>
   <a href="#ingredients" aria-label="Ingredients"></a>
@@ -118,10 +139,14 @@
   <a href="#shop" aria-label="Shop"></a>
   <a href="#voices" aria-label="Reviews"></a>
 </nav>
+{% endif %}
 
 
+{% unless template.name == 'cart' %}
 <div class="sticky">
   <span class="lbl"><b>Pick any 3, pay ₹499</b><span>Free shipping, always</span></span>
-  <a class="btn btn-primary btn-sm" href="#bundles">Build bundle</a>
+  <a class="btn btn-primary btn-sm" href="{% if template.name == 'index' %}#bundles{% else %}{{ routes.root_url }}#bundles{% endif %}">Build bundle</a>
 </div>
+{% endunless %}
+
 
